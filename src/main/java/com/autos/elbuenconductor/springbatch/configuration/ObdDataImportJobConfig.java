@@ -12,6 +12,7 @@ import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilde
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
+import org.springframework.batch.item.file.transform.RegexLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,11 +32,12 @@ public class ObdDataImportJobConfig {
 	
 	public FlatFileItemReader<Trayecto> reader(){
 		return new FlatFileItemReaderBuilder<Trayecto>()
-			.name("reader_persona")
-			.resource(new FileSystemResource("io/entradas/ejemplo02_personas.csv"))
+			.name("reader_trayecto")
+			.resource(new FileSystemResource("io/entradas/datos_obd_6c.csv"))
 			.linesToSkip(1)
+			//.lineTokenizer(new RegexLineTokenizer().setRegex(";"))
 			.delimited()
-			.names(new String[] {"firstName","lastName"})
+			.names(new String[] {"id","matricula","kmRecorridos","nAcelerones","nFrenazos","rpmMedias"})
 			.fieldSetMapper(new BeanWrapperFieldSetMapper<Trayecto>(){{
 				setTargetType(Trayecto.class);
 			}}).build();
@@ -46,7 +48,7 @@ public class ObdDataImportJobConfig {
 	public JdbcBatchItemWriter<Trayecto> writer(){
 		return new JdbcBatchItemWriterBuilder<Trayecto>()
 				.itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-				.sql("INSERT INTO TRAYECTOS (first_name, last_name) VALUES (:firstName, :lastName)")
+				.sql("INSERT INTO TRAYECTOS (ID,MATRICULA,KM_RECORRIDOS,N_ACELERONES,N_FRENAZOS,RPM_MEDIAS) VALUES (:id,:matricula,:kmRecorridos,:nAcelerones,:nFrenazos,:rpmMedias)")
 				.dataSource(dataSource)
 				.build();
 	}
