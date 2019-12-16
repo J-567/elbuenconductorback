@@ -1,7 +1,13 @@
 package com.autos.elbuenconductor.model;
 
-public class Trayecto {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table (name="Trayectos")
+public class Trayecto {
+	@Id
 	private int id;
 	private String matricula;
 	private String kmRecorridos;
