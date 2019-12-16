@@ -41,7 +41,7 @@ public class ObdDataImportJobConfig {
 		
 		return new FlatFileItemReaderBuilder<TrayectoDTO>()
 			.name("reader_trayecto")
-			.resource(new FileSystemResource("io/entradas/datos_obd_9c.csv"))
+			.resource(new FileSystemResource("io/entradas/datos_obd_3_3.csv"))
 			.linesToSkip(1)
 			.delimited()
 			.delimiter(";")
