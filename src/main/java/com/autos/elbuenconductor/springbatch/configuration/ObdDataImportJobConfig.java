@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 
+import com.autos.elbuenconductor.model.Trayecto;
 import com.autos.elbuenconductor.springbatch.TrayectoDTO;
 
 @Configuration
@@ -37,17 +38,10 @@ public class ObdDataImportJobConfig {
 	
 	public FlatFileItemReader<TrayectoDTO> reader(){
 		
-		//LineTokenizer tokenizer = new DelimitedLineTokenizer(";");
-		//System.out.println();
-		//tokenizer.setDelimiter(";");
-		//tokenizer.setNames(new String[]{"id", "name"});
-		
 		return new FlatFileItemReaderBuilder<TrayectoDTO>()
 			.name("reader_trayecto")
 			.resource(new FileSystemResource("io/entradas/datos_obd_8c.csv"))
 			.linesToSkip(1)
-			//.lineTokenizer(tokenizer)
-			//.lineTokenizer(new DelimitedLineTokenizer(";"))
 			.delimited()
 			.delimiter(";")
 			.names(new String[] {"id","matricula","kmRecorridos","nAcelerones","nFrenazos","rpmMedias","inicio","fin"})
@@ -62,7 +56,6 @@ public class ObdDataImportJobConfig {
 			@Override
 			public Trayecto process(TrayectoDTO item) throws Exception {
 				
-				//System.out.println(item);
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 				
 				Trayecto trayecto = new Trayecto();

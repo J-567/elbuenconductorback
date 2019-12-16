@@ -1,4 +1,4 @@
-package com.autos.elbuenconductor.springbatch.configuration;
+package com.autos.elbuenconductor.model;
 
 import java.io.Serializable;
 import java.util.Date;
