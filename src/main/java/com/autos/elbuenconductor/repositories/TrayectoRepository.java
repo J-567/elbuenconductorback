@@ -26,6 +26,31 @@ public interface TrayectoRepository extends JpaRepository<Trayecto, Long>{
 	
 	// Lista de deseos....
 	
+	//Historial personal
+	
+	//TODO Endpoint último trayecto realizado
+	
+	//TODO Endpoint trayecto por id 
+	
+	//TODO Endpoint importe final(precio) de un trayecto ya realizado
+	
+	//TODO Endpoint importe total entre 2 fechas
+	
+	//TODO Endpoint numero de trayectos realizados y con qué coches (data struct [{"matrícula"; number}})
+	
+	//TODO Endpoint numero de trayectos realizados entre 2 fechas
+	
+	//TODO Endpoint media RPM entre dos fechas
+	
+	//TODO Endpoint media frenazos por trayecto entre fechas
+	
+	//TODO Endpoint media acelerones por trayecto entre fechas
+	
+	
+	
+	
+	
+	
 	
 	
 }
