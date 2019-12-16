@@ -8,6 +8,7 @@ public class Trayecto implements Serializable {
 	
 	//@Id
 	private Long id;
+	private String dni;
 	private String matricula;
 	private double kmRecorridos;
 	private int nAcelerones;
@@ -26,6 +27,14 @@ public class Trayecto implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getDni() {
+		return dni;
+	}
+
+	public void setDni(String dni) {
+		this.dni = dni;
 	}
 
 	public String getMatricula() {
@@ -86,9 +95,9 @@ public class Trayecto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Trayecto [id=" + id + ", matricula=" + matricula + ", kmRecorridos=" + kmRecorridos + ", nAcelerones="
-				+ nAcelerones + ", nFrenazos=" + nFrenazos + ", rpmMedias=" + rpmMedias + ", inicio=" + inicio
-				+ ", fin=" + fin + "]";
+		return "Trayecto [id=" + id + ", dni=" + dni + ", matricula=" + matricula + ", kmRecorridos=" + kmRecorridos
+				+ ", nAcelerones=" + nAcelerones + ", nFrenazos=" + nFrenazos + ", rpmMedias=" + rpmMedias + ", inicio="
+				+ inicio + ", fin=" + fin + "]";
 	}
 
 }

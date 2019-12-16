@@ -3,6 +3,7 @@ package com.autos.elbuenconductor.springbatch;
 public class TrayectoDTO {
 	
 	private Long id;
+	private String dni;
 	private String matricula;
 	private String kmRecorridos;
 	private int nAcelerones;
@@ -21,6 +22,14 @@ public class TrayectoDTO {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getDni() {
+		return dni;
+	}
+
+	public void setDni(String dni) {
+		this.dni = dni;
 	}
 
 	public String getMatricula() {
@@ -81,9 +90,9 @@ public class TrayectoDTO {
 
 	@Override
 	public String toString() {
-		return "TrayectoDTO [id=" + id + ", matricula=" + matricula + ", kmRecorridos=" + kmRecorridos
+		return "TrayectoDTO [id=" + id + ", dni=" + dni + ", matricula=" + matricula + ", kmRecorridos=" + kmRecorridos
 				+ ", nAcelerones=" + nAcelerones + ", nFrenazos=" + nFrenazos + ", rpmMedias=" + rpmMedias + ", inicio="
 				+ inicio + ", fin=" + fin + "]";
 	}
-	
+
 }

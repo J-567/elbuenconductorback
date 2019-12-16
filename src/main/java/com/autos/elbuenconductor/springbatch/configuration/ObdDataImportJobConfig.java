@@ -40,11 +40,11 @@ public class ObdDataImportJobConfig {
 		
 		return new FlatFileItemReaderBuilder<TrayectoDTO>()
 			.name("reader_trayecto")
-			.resource(new FileSystemResource("io/entradas/datos_obd_8c.csv"))
+			.resource(new FileSystemResource("io/entradas/datos_obd_9c.csv"))
 			.linesToSkip(1)
 			.delimited()
 			.delimiter(";")
-			.names(new String[] {"id","matricula","kmRecorridos","nAcelerones","nFrenazos","rpmMedias","inicio","fin"})
+			.names(new String[] {"id","dni","matricula","kmRecorridos","nAcelerones","nFrenazos","rpmMedias","inicio","fin"})
 			.fieldSetMapper(new BeanWrapperFieldSetMapper<TrayectoDTO>(){{
 				setTargetType(TrayectoDTO.class);
 			}}).build();
@@ -60,6 +60,7 @@ public class ObdDataImportJobConfig {
 				
 				Trayecto trayecto = new Trayecto();
 				trayecto.setId(item.getId());
+				trayecto.setDni(item.getDni());
 				trayecto.setMatricula(item.getMatricula());
 				trayecto.setnAcelerones(item.getnAcelerones());
 				trayecto.setnFrenazos(item.getnFrenazos());
@@ -78,7 +79,7 @@ public class ObdDataImportJobConfig {
 	public JdbcBatchItemWriter<Trayecto> writer(){
 		return new JdbcBatchItemWriterBuilder<Trayecto>()
 				.itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-				.sql("INSERT INTO TRAYECTOS (ID, MATRICULA, KM_RECORRIDOS, N_ACELERONES, N_FRENAZOS, RPM_MEDIAS, INICIO, FIN) VALUES (:id, :matricula, :kmRecorridos, :nAcelerones, :nFrenazos, :rpmMedias, :inicio, :fin)")
+				.sql("INSERT INTO TRAYECTOS (ID, DNI, MATRICULA, KM_RECORRIDOS, N_ACELERONES, N_FRENAZOS, RPM_MEDIAS, INICIO, FIN) VALUES (:id, :dni, :matricula, :kmRecorridos, :nAcelerones, :nFrenazos, :rpmMedias, :inicio, :fin)")
 				.dataSource(dataSource)
 				.build();
 	}
