@@ -9,8 +9,10 @@ import javax.persistence.Table;
 @Entity
 @Table (name="clientes")
 public class Cliente {
+	
 	@Id
 	private String DNI;
+	
 	private String nombre;
 	private String apellido1;
 	private String apellido2;

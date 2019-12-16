@@ -3,18 +3,42 @@ package com.autos.elbuenconductor.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name="TRAYECTOS")
 public class Trayecto implements Serializable {
 	private static final long serialVersionUID = -1L;
 	
-	//@Id
+	@Id
 	private Long id;
-	private String dni;
-	private String matricula;
+	
+	@ManyToOne
+	@JoinColumn(name = "DNI")
+	private Cliente cliente; 
+	
+	@ManyToOne
+	@JoinColumn(name = "MATRICULA")
+	private Vehiculo vehiculo;
+	
 	private double kmRecorridos;
+	
 	private int nAcelerones;
+	
 	private int nFrenazos;
+	
 	private double rpmMedias;
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date inicio;
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date fin;
 
 	public Trayecto() {
@@ -29,20 +53,20 @@ public class Trayecto implements Serializable {
 		this.id = id;
 	}
 
-	public String getDni() {
-		return dni;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setDni(String dni) {
-		this.dni = dni;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
-	public String getMatricula() {
-		return matricula;
+	public Vehiculo getVehiculo() {
+		return vehiculo;
 	}
 
-	public void setMatricula(String matricula) {
-		this.matricula = matricula;
+	public void setVehiculo(Vehiculo vehiculo) {
+		this.vehiculo = vehiculo;
 	}
 
 	public double getKmRecorridos() {
@@ -95,9 +119,9 @@ public class Trayecto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Trayecto [id=" + id + ", dni=" + dni + ", matricula=" + matricula + ", kmRecorridos=" + kmRecorridos
-				+ ", nAcelerones=" + nAcelerones + ", nFrenazos=" + nFrenazos + ", rpmMedias=" + rpmMedias + ", inicio="
-				+ inicio + ", fin=" + fin + "]";
+		return "Trayecto [id=" + id + ", cliente=" + cliente + ", vehiculo=" + vehiculo + ", kmRecorridos="
+				+ kmRecorridos + ", nAcelerones=" + nAcelerones + ", nFrenazos=" + nFrenazos + ", rpmMedias="
+				+ rpmMedias + ", inicio=" + inicio + ", fin=" + fin + "]";
 	}
 
 }

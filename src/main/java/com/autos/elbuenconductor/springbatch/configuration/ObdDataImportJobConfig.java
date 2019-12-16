@@ -1,7 +1,6 @@
 package com.autos.elbuenconductor.springbatch.configuration;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.sql.DataSource;
 
@@ -21,7 +20,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 
+import com.autos.elbuenconductor.model.Cliente;
 import com.autos.elbuenconductor.model.Trayecto;
+import com.autos.elbuenconductor.model.Vehiculo;
 import com.autos.elbuenconductor.springbatch.TrayectoDTO;
 
 @Configuration
@@ -58,10 +59,16 @@ public class ObdDataImportJobConfig {
 				
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 				
+				Vehiculo vehiculo = new Vehiculo();
+				Cliente cliente = new Cliente();
+				
+				vehiculo.setMatricula(item.getMatricula());
+				cliente.setDNI(item.getDni());
+				
 				Trayecto trayecto = new Trayecto();
 				trayecto.setId(item.getId());
-				trayecto.setDni(item.getDni());
-				trayecto.setMatricula(item.getMatricula());
+				trayecto.setCliente(cliente);
+				trayecto.setVehiculo(vehiculo);
 				trayecto.setnAcelerones(item.getnAcelerones());
 				trayecto.setnFrenazos(item.getnFrenazos());
 				trayecto.setKmRecorridos(Double.parseDouble(item.getKmRecorridos().replace(",", ".")));
@@ -79,7 +86,7 @@ public class ObdDataImportJobConfig {
 	public JdbcBatchItemWriter<Trayecto> writer(){
 		return new JdbcBatchItemWriterBuilder<Trayecto>()
 				.itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-				.sql("INSERT INTO TRAYECTOS (ID, DNI, MATRICULA, KM_RECORRIDOS, N_ACELERONES, N_FRENAZOS, RPM_MEDIAS, INICIO, FIN) VALUES (:id, :dni, :matricula, :kmRecorridos, :nAcelerones, :nFrenazos, :rpmMedias, :inicio, :fin)")
+				.sql("INSERT INTO TRAYECTOS (ID, DNI, MATRICULA, KM_RECORRIDOS, N_ACELERONES, N_FRENAZOS, RPM_MEDIAS, INICIO, FIN) VALUES (:id, :cliente.DNI, :vehiculo.matricula, :kmRecorridos, :nAcelerones, :nFrenazos, :rpmMedias, :inicio, :fin)")
 				.dataSource(dataSource)
 				.build();
 	}
