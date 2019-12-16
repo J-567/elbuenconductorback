@@ -1,5 +1,6 @@
 package com.autos.elbuenconductor.springbatch.configuration;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.sql.DataSource;
@@ -43,13 +44,13 @@ public class ObdDataImportJobConfig {
 		
 		return new FlatFileItemReaderBuilder<TrayectoDTO>()
 			.name("reader_trayecto")
-			.resource(new FileSystemResource("io/entradas/datos_obd_6c.csv"))
+			.resource(new FileSystemResource("io/entradas/datos_obd_8c.csv"))
 			.linesToSkip(1)
 			//.lineTokenizer(tokenizer)
 			//.lineTokenizer(new DelimitedLineTokenizer(";"))
 			.delimited()
 			.delimiter(";")
-			.names(new String[] {"id","matricula","kmRecorridos","nAcelerones","nFrenazos","rpmMedias"})
+			.names(new String[] {"id","matricula","kmRecorridos","nAcelerones","nFrenazos","rpmMedias","inicio","fin"})
 			.fieldSetMapper(new BeanWrapperFieldSetMapper<TrayectoDTO>(){{
 				setTargetType(TrayectoDTO.class);
 			}}).build();
@@ -61,7 +62,8 @@ public class ObdDataImportJobConfig {
 			@Override
 			public Trayecto process(TrayectoDTO item) throws Exception {
 				
-				System.out.println(item);
+				//System.out.println(item);
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 				
 				Trayecto trayecto = new Trayecto();
 				trayecto.setId(item.getId());
@@ -69,17 +71,15 @@ public class ObdDataImportJobConfig {
 				trayecto.setnAcelerones(item.getnAcelerones());
 				trayecto.setnFrenazos(item.getnFrenazos());
 				trayecto.setKmRecorridos(Double.parseDouble(item.getKmRecorridos().replace(",", ".")));
-				
-				trayecto.setRpmMedias(3500.0);  // double?
-				trayecto.setInicio(new Date());
-				trayecto.setFin(new Date());
+				trayecto.setRpmMedias(Double.parseDouble(item.getRpmMedias().replace(",", ".")));
+				trayecto.setInicio(sdf.parse(item.getInicio()));
+				trayecto.setFin(sdf.parse(item.getFin()));
 		
 				return trayecto;
 			}
 			
 		};
 	}
-	
 	
 	@Bean
 	public JdbcBatchItemWriter<Trayecto> writer(){
