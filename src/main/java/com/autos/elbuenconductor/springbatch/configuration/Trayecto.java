@@ -1,16 +1,20 @@
 package com.autos.elbuenconductor.springbatch.configuration;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Trayecto implements Serializable {
 	private static final long serialVersionUID = -1L;
 	
+	//@Id
 	private Long id;
 	private String matricula;
-	private String kmRecorridos;
+	private double kmRecorridos;
 	private int nAcelerones;
 	private int nFrenazos;
 	private double rpmMedias;
+	private Date inicio;
+	private Date fin;
 
 	public Trayecto() {
 		
@@ -32,11 +36,11 @@ public class Trayecto implements Serializable {
 		this.matricula = matricula;
 	}
 
-	public String getKmRecorridos() {
+	public double getKmRecorridos() {
 		return kmRecorridos;
 	}
 
-	public void setKmRecorridos(String kmRecorridos) {
+	public void setKmRecorridos(double kmRecorridos) {
 		this.kmRecorridos = kmRecorridos;
 	}
 
@@ -63,6 +67,28 @@ public class Trayecto implements Serializable {
 	public void setRpmMedias(double rpmMedias) {
 		this.rpmMedias = rpmMedias;
 	}
-	
-	
+
+	public Date getInicio() {
+		return inicio;
+	}
+
+	public void setInicio(Date inicio) {
+		this.inicio = inicio;
+	}
+
+	public Date getFin() {
+		return fin;
+	}
+
+	public void setFin(Date fin) {
+		this.fin = fin;
+	}
+
+	@Override
+	public String toString() {
+		return "Trayecto [id=" + id + ", matricula=" + matricula + ", kmRecorridos=" + kmRecorridos + ", nAcelerones="
+				+ nAcelerones + ", nFrenazos=" + nFrenazos + ", rpmMedias=" + rpmMedias + ", inicio=" + inicio
+				+ ", fin=" + fin + "]";
+	}
+
 }

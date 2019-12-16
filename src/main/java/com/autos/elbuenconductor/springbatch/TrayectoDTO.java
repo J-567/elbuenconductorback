@@ -1,29 +1,25 @@
-package com.autos.elbuenconductor.model;
+package com.autos.elbuenconductor.springbatch;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table (name="Trayectos")
-public class Trayecto {
-	@Id
-	private int id;
+public class TrayectoDTO {
+	
+	private Long id;
 	private String matricula;
 	private String kmRecorridos;
 	private int nAcelerones;
 	private int nFrenazos;
-	private double rpmMedias;
+	private String rpmMedias;
+	private String inicio;
+	private String fin;
 	
-	public Trayecto() {
+	public TrayectoDTO() {
 		
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -59,18 +55,35 @@ public class Trayecto {
 		this.nFrenazos = nFrenazos;
 	}
 
-	public double getRpmMedias() {
+	public String getRpmMedias() {
 		return rpmMedias;
 	}
 
-	public void setRpmMedias(double rpmMedias) {
+	public void setRpmMedias(String rpmMedias) {
 		this.rpmMedias = rpmMedias;
+	}
+
+	public String getInicio() {
+		return inicio;
+	}
+
+	public void setInicio(String inicio) {
+		this.inicio = inicio;
+	}
+
+	public String getFin() {
+		return fin;
+	}
+
+	public void setFin(String fin) {
+		this.fin = fin;
 	}
 
 	@Override
 	public String toString() {
-		return "Trayecto [id=" + id + ", matricula=" + matricula + ", kmRecorridos=" + kmRecorridos + ", nAcelerones="
-				+ nAcelerones + ", nFrenazos=" + nFrenazos + ", rpmMedias=" + rpmMedias + "]";
+		return "TrayectoDTO [id=" + id + ", matricula=" + matricula + ", kmRecorridos=" + kmRecorridos
+				+ ", nAcelerones=" + nAcelerones + ", nFrenazos=" + nFrenazos + ", rpmMedias=" + rpmMedias + ", inicio="
+				+ inicio + ", fin=" + fin + "]";
 	}
 	
 }
