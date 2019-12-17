@@ -21,6 +21,7 @@ import com.autos.elbuenconductor.model.dtos.EstadisticasByCocheDTO;
 import com.autos.elbuenconductor.model.dtos.EstadisticasDTO;
 import com.autos.elbuenconductor.model.dtos.TrayectoOutDTO;
 import com.autos.elbuenconductor.repositories.TrayectoRepository;
+import com.autos.elbuenconductor.services.CalculosServices;
 
 @RestController
 @RequestMapping("/api")
@@ -29,22 +30,8 @@ public class TrayectoController {
 	@Autowired	
 	private TrayectoRepository trayectoRepository;
 	
-	//Servicios:
-	public double getPrecioOptional(Optional<Trayecto> trayecto) {
-		
-		return trayecto.get().getKmRecorridos()*
-				(0.06 + 0.01*trayecto.get().getVehiculo().getCoeficiente()
-				- 0.001*trayecto.get().getCliente().getCalidadConduccion());
-		
-	}
-	
-	public double getPrecio(Trayecto trayecto) {
-		
-		return trayecto.getKmRecorridos()*
-				(0.06 + 0.01*trayecto.getVehiculo().getCoeficiente()
-				- 0.001*trayecto.getCliente().getCalidadConduccion());
-	}
-	
+	@Autowired
+	private CalculosServices calculoServices;
 	
 	@GetMapping("/clientes/{dni}/{id}")
 	public TrayectoOutDTO getByDniById(@PathVariable ("dni") String dni,
@@ -53,20 +40,28 @@ public class TrayectoController {
 		Cliente cliente = new Cliente();
 		cliente.setDNI(dni);
 	
-		Optional<Trayecto> trayecto = trayectoRepository.findByClienteAndId(cliente, id);
+		Optional<Trayecto> optional = trayectoRepository.findByClienteAndId(cliente, id);
 		
-		TrayectoOutDTO trayectoOut = new TrayectoOutDTO();
+		Trayecto trayecto = optional.isPresent()? optional.get():null;
 		
-		trayectoOut.setId(trayecto.get().getId());
-		trayectoOut.setDni(trayecto.get().getCliente().getDNI());
-		trayectoOut.setMatricula(trayecto.get().getVehiculo().getMatricula());
-		trayectoOut.setKmRecorridos(trayecto.get().getKmRecorridos());
-		trayectoOut.setnAcelerones(trayecto.get().getnAcelerones());
-		trayectoOut.setnFrenazos(trayecto.get().getnFrenazos());
-		trayectoOut.setRpmMedias(trayecto.get().getRpmMedias());
-		trayectoOut.setInicio(trayecto.get().getInicio());
-		trayectoOut.setFin(trayecto.get().getFin());
-		trayectoOut.setPrecio(this.getPrecioOptional(trayecto));
+		TrayectoOutDTO trayectoOut = null;
+		
+		if(trayecto != null) {
+
+			trayectoOut = new TrayectoOutDTO();
+			
+			trayectoOut.setId(trayecto.getId());
+			trayectoOut.setDni(trayecto.getCliente().getDNI());
+			trayectoOut.setMatricula(trayecto.getVehiculo().getMatricula());
+			trayectoOut.setKmRecorridos(trayecto.getKmRecorridos());
+			trayectoOut.setnAcelerones(trayecto.getnAcelerones());
+			trayectoOut.setnFrenazos(trayecto.getnFrenazos());
+			trayectoOut.setRpmMedias(trayecto.getRpmMedias());
+			trayectoOut.setInicio(trayecto.getInicio());
+			trayectoOut.setFin(trayecto.getFin());
+			trayectoOut.setPrecio(this.calculoServices.getPrecioTrayecto(trayecto));
+		
+		}
 		
 		return trayectoOut;			   
 	}
@@ -101,7 +96,7 @@ public class TrayectoController {
 			trayectoOut.setRpmMedias(trayecto.getRpmMedias());
 			trayectoOut.setInicio(trayecto.getInicio());
 			trayectoOut.setFin(trayecto.getFin());
-			trayectoOut.setPrecio(this.getPrecio(trayecto));
+			trayectoOut.setPrecio(this.calculoServices.getPrecioTrayecto(trayecto));
 			
 			trayectosOut.add(trayectoOut);
 			
