@@ -2,60 +2,42 @@ package com.autos.elbuenconductor.model.dtos;
 
 public class EstadisticasByCocheDTO {
 
-	private String dni;
+	private String matricula;
 	private double kmRecorridos;
 	private int numeroTrayectos;
-	private String inicioEstadistica;
-	private String finEstadistica;
 	
 	public EstadisticasByCocheDTO() {
 		
 	}
-	
-	public String getDni() {
-		return dni;
+
+	public String getMatricula() {
+		return matricula;
 	}
-	
-	public void setDni(String dni) {
-		this.dni = dni;
+
+	public void setMatricula(String matricula) {
+		this.matricula = matricula;
 	}
-	
+
 	public double getKmRecorridos() {
 		return kmRecorridos;
 	}
-	
+
 	public void setKmRecorridos(double kmRecorridos) {
 		this.kmRecorridos = kmRecorridos;
 	}
-	
+
 	public int getNumeroTrayectos() {
 		return numeroTrayectos;
 	}
-	
+
 	public void setNumeroTrayectos(int numeroTrayectos) {
 		this.numeroTrayectos = numeroTrayectos;
 	}
-	
-	public String getInicioEstadistica() {
-		return inicioEstadistica;
-	}
-	
-	public void setInicioEstadistica(String inicioEstadistica) {
-		this.inicioEstadistica = inicioEstadistica;
-	}
-	
-	public String getFinEstadistica() {
-		return finEstadistica;
-	}
-	
-	public void setFinEstadistica(String finEstadistica) {
-		this.finEstadistica = finEstadistica;
-	}
-	
+
 	@Override
 	public String toString() {
-		return "DatosByCocheDTO [dni=" + dni + ", kmRecorridos=" + kmRecorridos + ", numeroTrayectos=" + numeroTrayectos
-				+ ", inicioEstadistica=" + inicioEstadistica + ", finEstadistica=" + finEstadistica + "]";
+		return "EstadisticasByCocheDTO [matricula=" + matricula + ", kmRecorridos=" + kmRecorridos
+				+ ", numeroTrayectos=" + numeroTrayectos + "]";
 	}
 	
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.autos.elbuenconductor.model.Cliente;
 import com.autos.elbuenconductor.model.Trayecto;
+import com.autos.elbuenconductor.model.dtos.EstadisticasByCocheDTO;
 import com.autos.elbuenconductor.model.dtos.EstadisticasDTO;
 import com.autos.elbuenconductor.model.dtos.TrayectoOutDTO;
 import com.autos.elbuenconductor.repositories.TrayectoRepository;
@@ -30,16 +32,17 @@ public class TrayectoController {
 	//Servicios:
 	public double getPrecioOptional(Optional<Trayecto> trayecto) {
 		
-		//TODO aplicar lógica de negocio
+		return trayecto.get().getKmRecorridos()*
+				(0.06 + 0.01*trayecto.get().getVehiculo().getCoeficiente()
+				- 0.001*trayecto.get().getCliente().getCalidadConduccion());
 		
-		return 50.5;
 	}
 	
 	public double getPrecio(Trayecto trayecto) {
 		
-		//TODO aplicar lógica de negocio
-		
-		return 50.5;
+		return trayecto.getKmRecorridos()*
+				(0.06 + 0.01*trayecto.getVehiculo().getCoeficiente()
+				- 0.001*trayecto.getCliente().getCalidadConduccion());
 	}
 	
 	
@@ -119,11 +122,9 @@ public class TrayectoController {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		
-		Date inicio = sdf.parse(inicioStr);
-		Date fin = sdf.parse(finStr);
+		estadisticas.setInicioEstadistica(sdf.parse(inicioStr));
+		estadisticas.setFinEstadistica(sdf.parse(finStr));
 		
-		estadisticas.setInicioEstadistica(inicio);
-		estadisticas.setFinEstadistica(fin);
 		estadisticas.setDni(dni);
 		
 		int numeroTrayectos = trayectos.size();
@@ -152,29 +153,42 @@ public class TrayectoController {
 		return estadisticas;
 	}
 	
-	
-	/*
-	@GetMapping("/test")
-	public String test() throws ParseException {
+	@GetMapping("/clientes/{dni}/estadisticascoches/{inicio}/{fin}")
+	public List<EstadisticasByCocheDTO> getEstadisticasCochesByDniBetweenInicioFin(
+			       @PathVariable ("dni") String dni,
+				   @PathVariable ("inicio") String inicioStr,
+				   @PathVariable ("fin") String finStr) throws ParseException{
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		List<TrayectoOutDTO> trayectos = this.getByDniBetweenInicioFin(dni, inicioStr, finStr);
+		List<String> matriculas =  new ArrayList<String>();
 		
-		Cliente cliente = new Cliente();
-		cliente.setDNI("12345678A");
+		for (TrayectoOutDTO trayecto: trayectos) {
+			if (!matriculas.contains(trayecto.getMatricula())){
+				matriculas.add(trayecto.getMatricula());
+			}
+		}
+			
+		List<EstadisticasByCocheDTO> estadisticasByCoche = new ArrayList<EstadisticasByCocheDTO>();
 		
-		Date date1 = sdf.parse("12/12/2019");
-		Date date2 = sdf.parse("15/12/2019");
+		for (String matricula: matriculas) {
+			EstadisticasByCocheDTO estadisticaCoche = new EstadisticasByCocheDTO();
+			
+			estadisticaCoche.setMatricula(matricula);
 		
-		List<Trayecto> trayectos = trayectoRepository.findByClienteAndDatesBetween(cliente,date1, date2);
+			List<TrayectoOutDTO> trayectosByCoche = trayectos.stream()
+					 				.filter(x -> x.getMatricula().equals(matricula))
+					 				.collect(Collectors.toList());
+			
+			estadisticaCoche.setNumeroTrayectos(trayectosByCoche.size());
+			
+			estadisticaCoche.setKmRecorridos(trayectosByCoche.stream()
+							.collect(Collectors.summingDouble(x -> x.getKmRecorridos())));
+			
+			estadisticasByCoche.add(estadisticaCoche);
+			
+		}
 		
-		System.out.println("RESULTADOS **************************************************************");
-		trayectos.stream().forEach(x -> {
-			System.out.println(x);
-		});
-		
-		
-		return "ok";
+		return estadisticasByCoche;
 	}
-	*/
 	
 }

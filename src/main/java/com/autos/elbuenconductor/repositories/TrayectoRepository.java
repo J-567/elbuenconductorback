@@ -24,7 +24,13 @@ public interface TrayectoRepository extends JpaRepository<Trayecto, Long>{
 														@Param("inicio")	Date inicio, 
 														@Param("fin") 		Date fin);
 	
+	/*
+	@Query("select t from Trayecto t where t.cliente = :cliente AND (t.inicio > :inicio AND t.inicio < :fin) AND (t.fin > :inicio AND t.fin < :fin) group by t.vehiculo") // JPQL
+	public List<Trayecto> findByClienteAndDatesBetweenGroupMatriculas (@Param("cliente") 	Cliente cliente, 
+														@Param("inicio")	Date inicio, 
+														@Param("fin") 		Date fin);
 	
+	*/
 	
 	// Lista de deseos....
 
@@ -46,7 +52,7 @@ public interface TrayectoRepository extends JpaRepository<Trayecto, Long>{
 	//{'rpm': val, 'nFren': val, 'nAc': val, 'nTray': val, 'KmMedios': val, TotalGAstado': val} crear modelo DTOs
 	
 	//Detalle de las estadísticas:
-	//TODO ENDPOINT numero de trayectos realizados y con qué coches entre dos fechas(data struct {"matrícula"; number})
+	// ENDPOINT numero de trayectos realizados y con qué coches entre dos fechas(data struct {"matrícula"; number})
 	
 	//****DATOS VEHICULOS****:
 	//ENDPOINT findVehiculoById<Vehiculo>
