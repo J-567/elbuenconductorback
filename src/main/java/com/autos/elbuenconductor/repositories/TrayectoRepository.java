@@ -26,31 +26,29 @@ public interface TrayectoRepository extends JpaRepository<Trayecto, Long>{
 	
 	// Lista de deseos....
 	
-	//Historial personal
+	//Servicio
+	//TODO Cálculo del precio de un trayectos
 	
-	//TODO Endpoint último trayecto realizado
+	//****DATOS CLIENTE****:
+	//DATOS PERSONALES:
+	//TODO ENDPOINT getClienteById<Cliente>
 	
-	//TODO Endpoint trayecto por id 
+	//DATOS DE UN TRAYECTO:
+	//TODO ENDPOINT trayecto por id y por cliente<Trayecto>
 	
-	//TODO Endpoint importe final(precio) de un trayecto ya realizado
+	//NEXT STEP, SI NUESTROS TRAYECTOS FUESEN SERIES TEMPORALES ENDPOINT Series temporales (para hacer gráficos)
 	
-	//TODO Endpoint importe total entre 2 fechas
+	//ESTADÍSTICAS GENERALES:
+	//TODO ENDPOINT Estadísticas entre dos fechas: nTrayectos y valores medios de rmp, nFrenazos, nAcelerones, Km (por trayecto) 
+	//{'rpm': val, 'nFren': val, 'nAc': val, 'nTray': val, 'KmMedios': val, TotalGAstado': val} crear modelo DTOs
 	
-	//TODO Endpoint numero de trayectos realizados y con qué coches (data struct [{"matrícula"; number}})
+	//Detalle de las estadísticas:
+	//TODO ENDPOINT numero de trayectos realizados y con qué coches entre dos fechas(data struct {"matrícula"; number})
 	
-	//TODO Endpoint numero de trayectos realizados entre 2 fechas
+	//****DATOS VEHICULOS****:
+	//TODO ENDPOINT findVehiculoById<Vehiculo>
 	
-	//TODO Endpoint media RPM entre dos fechas
+	//TODO ENDPOINT buscador/lista de vehiculo<Vehiculo[]>
 	
-	//TODO Endpoint media frenazos por trayecto entre fechas
-	
-	//TODO Endpoint media acelerones por trayecto entre fechas
-	
-	
-	
-	
-	
-	
-	
-	
+
 }
