@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.autos.elbuenconductor.model.Cliente;
 import com.autos.elbuenconductor.model.Trayecto;
 import com.autos.elbuenconductor.repositories.TrayectoRepository;
+import com.autos.elbuenconductor.springbatch.TrayectoOutDTO;
 
 @RestController
 @RequestMapping("/api")
@@ -24,14 +25,37 @@ public class TrayectoController {
 	@Autowired	
 	private TrayectoRepository trayectoRepository;
 	
+	//Servicios:
+	public double getPrecio(Optional<Trayecto> trayecto) {
+		
+		//TODO aplicar lógica de negocio
+		
+		return 50.5;
+	}
+	
 	@GetMapping("/clientes/{dni}/{id}")
-	public Optional<Trayecto> getByDniById(@PathVariable ("dni") String dni,
+	public TrayectoOutDTO getByDniById(@PathVariable ("dni") String dni,
 								 		   @PathVariable ("id") Long id){
 		
 		Cliente cliente = new Cliente();
 		cliente.setDNI(dni);
 	
-		return trayectoRepository.findByClienteAndId(cliente, id);			   
+		Optional<Trayecto> trayecto = trayectoRepository.findByClienteAndId(cliente, id);
+		
+		TrayectoOutDTO trayectoOut = new TrayectoOutDTO();
+		
+		trayectoOut.setId(trayecto.get().getId());
+		trayectoOut.setDni(trayecto.get().getCliente().getDNI());
+		trayectoOut.setMatricula(trayecto.get().getVehiculo().getMatricula());
+		trayectoOut.setKmRecorridos(trayecto.get().getKmRecorridos());
+		trayectoOut.setnAcelerones(trayecto.get().getnAcelerones());
+		trayectoOut.setnFrenazos(trayecto.get().getnFrenazos());
+		trayectoOut.setRpmMedias(trayecto.get().getRpmMedias());
+		trayectoOut.setInicio(trayecto.get().getInicio());
+		trayectoOut.setFin(trayecto.get().getFin());
+		trayectoOut.setPrecio(this.getPrecio(trayecto));
+		
+		return trayectoOut;			   
 	}
 	
 	@GetMapping("/clientes/{dni}/{inicio}/{fin}")
