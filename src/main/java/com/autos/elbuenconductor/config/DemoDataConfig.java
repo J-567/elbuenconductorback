@@ -72,7 +72,6 @@ public class DemoDataConfig {
 		c1.setFechaCarnet(sdf.parse("04/05/1990"));
 		c1.setFechaNacimiento(sdf.parse("12/03/1971"));
 		c1.setZipCode("08013");
-		c1.setCalidadConduccion(9);
 		
 		Cliente c2 = new Cliente();
 		c2.setDNI("87654321V");
@@ -82,7 +81,6 @@ public class DemoDataConfig {
 		c2.setFechaCarnet(sdf.parse("08/12/2004"));
 		c2.setFechaNacimiento(sdf.parse("23/07/1984"));
 		c2.setZipCode("08070");
-		c2.setCalidadConduccion(7);
 		
 		Cliente c3 = new Cliente();
 		c3.setDNI("44678910Y");
@@ -92,7 +90,6 @@ public class DemoDataConfig {
 		c3.setFechaCarnet(sdf.parse("28/01/2010"));
 		c3.setFechaNacimiento(sdf.parse("10/05/1990"));
 		c3.setZipCode("08015");
-		c3.setCalidadConduccion(2);
 		
 		this.clienteRepository.save(c1);
 		this.clienteRepository.save(c2);

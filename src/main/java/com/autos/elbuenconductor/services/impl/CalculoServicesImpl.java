@@ -72,8 +72,8 @@ public class CalculoServicesImpl implements CalculosServices{
 	public double getPrecioTrayecto(Trayecto trayecto) {
 		
 		return trayecto.getKmRecorridos()*
-				(0.065 + 0.01 * trayecto.getVehiculo().getCoeficiente()
-				- 0.001 * this.getCalidadTrayecto(trayecto));
+				(0.065 + 0.05 * trayecto.getVehiculo().getCoeficiente()
+				- 0.005 * this.getCalidadTrayecto(trayecto));
 	}
 
 }

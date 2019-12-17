@@ -19,7 +19,6 @@ public class Cliente {
 	private String zipCode;
 	private Date fechaNacimiento;
 	private Date fechaCarnet;
-	private int calidadConduccion;
 	
 	//Constructor
 	public Cliente() {
@@ -41,7 +40,6 @@ public class Cliente {
 
 	public Date getFechaCarnet() {return fechaCarnet;}
 
-	public int getCalidadConduccion() {return calidadConduccion;}
 
 	//Setters
 	public void setDNI(String dNI) {DNI = dNI;}
@@ -58,24 +56,13 @@ public class Cliente {
 
 	public void setFechaCarnet(Date fechaCarnet) {this.fechaCarnet = fechaCarnet;}
 
-	public void setCalidadConduccion(int calidadConduccion) {this.calidadConduccion = calidadConduccion;}
-
 	//ToString
-
+	
 	@Override
 	public String toString() {
 		return "Cliente [DNI=" + DNI + ", nombre=" + nombre + ", apellido1=" + apellido1 + ", apellido2=" + apellido2
 				+ ", zipCode=" + zipCode + ", fechaNacimiento=" + fechaNacimiento + ", fechaCarnet=" + fechaCarnet
-				+ ", calidadConduccion=" + calidadConduccion + "]";
+				+ "]";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }
