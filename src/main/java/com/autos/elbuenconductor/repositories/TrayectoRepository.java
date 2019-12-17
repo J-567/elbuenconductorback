@@ -2,6 +2,7 @@ package com.autos.elbuenconductor.repositories;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,9 +15,9 @@ import com.autos.elbuenconductor.model.Trayecto;
 @Repository
 public interface TrayectoRepository extends JpaRepository<Trayecto, Long>{
 
-	public List<Trayecto> findByCliente(Cliente cliente);
+	public Optional<Trayecto> findByClienteAndId(Cliente cliente, Long Id);
 	
-	public List<Trayecto> findByClienteAndInicioBetweenAndFinBetween(Cliente cliente, Date inicio, Date fin, Date inicio2, Date fin2);
+	//public List<Trayecto> findByClienteAndInicioBetweenAndFinBetween(Cliente cliente, Date inicio, Date fin, Date inicio2, Date fin2);
 	
 	@Query("select t from Trayecto t where t.cliente = :cliente AND (t.inicio > :inicio AND t.inicio < :fin) AND (t.fin > :inicio AND t.fin < :fin)") // JPQL
 	public List<Trayecto> findByClienteAndDatesBetween (@Param("cliente") 	Cliente cliente, 
@@ -24,17 +25,19 @@ public interface TrayectoRepository extends JpaRepository<Trayecto, Long>{
 														@Param("fin") 		Date fin);
 	
 	
+	
 	// Lista de deseos....
+
 	
 	//Servicio
 	//TODO Cálculo del precio de un trayectos
 	
 	//****DATOS CLIENTE****:
 	//DATOS PERSONALES:
-	//TODO ENDPOINT getClienteById<Cliente>
+	// ENDPOINT getClienteById<Cliente>
 	
 	//DATOS DE UN TRAYECTO:
-	//TODO ENDPOINT trayecto por id y por cliente<Trayecto>
+	//ENDPOINT trayecto por id y por cliente<Trayecto>
 	
 	//NEXT STEP, SI NUESTROS TRAYECTOS FUESEN SERIES TEMPORALES ENDPOINT Series temporales (para hacer gráficos)
 	
@@ -46,9 +49,9 @@ public interface TrayectoRepository extends JpaRepository<Trayecto, Long>{
 	//TODO ENDPOINT numero de trayectos realizados y con qué coches entre dos fechas(data struct {"matrícula"; number})
 	
 	//****DATOS VEHICULOS****:
-	//TODO ENDPOINT findVehiculoById<Vehiculo>
+	//ENDPOINT findVehiculoById<Vehiculo>
 	
-	//TODO ENDPOINT buscador/lista de vehiculo<Vehiculo[]>
+	//ENDPOINT buscador/lista de vehiculo<Vehiculo[]>
 	
 
 }

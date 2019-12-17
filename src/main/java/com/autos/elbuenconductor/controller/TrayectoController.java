@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,15 +24,34 @@ public class TrayectoController {
 	@Autowired	
 	private TrayectoRepository trayectoRepository;
 	
-	@GetMapping("/clientes/{dni}/trayectos")
-	public List<Trayecto> getByDni(@PathVariable ("dni") String dni){
+	@GetMapping("/clientes/{dni}/{id}")
+	public Optional<Trayecto> getByDniById(@PathVariable ("dni") String dni,
+								 		   @PathVariable ("id") Long id){
 		
 		Cliente cliente = new Cliente();
 		cliente.setDNI(dni);
 	
-		return trayectoRepository.findByCliente(cliente);			   
+		return trayectoRepository.findByClienteAndId(cliente, id);			   
 	}
 	
+	@GetMapping("/clientes/{dni}/{inicio}/{fin}")
+	public List<Trayecto> getByDniBetweenInicioFin(@PathVariable ("dni") String dni,
+	 		   									   @PathVariable ("inicio") String inicioStr,
+	 		   									   @PathVariable ("fin") String finStr) throws ParseException{
+		
+		Cliente cliente = new Cliente();
+		cliente.setDNI(dni);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		
+		Date inicio = sdf.parse(inicioStr);
+		Date fin = sdf.parse(finStr);
+		
+		return trayectoRepository.findByClienteAndDatesBetween(cliente, inicio, fin);
+	}
+	
+	
+	/*
 	@GetMapping("/test")
 	public String test() throws ParseException {
 		
@@ -52,6 +73,6 @@ public class TrayectoController {
 		
 		return "ok";
 	}
-	
+	*/
 	
 }
