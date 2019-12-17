@@ -1,4 +1,4 @@
-package com.autos.elbuenconductor.springbatch;
+package com.autos.elbuenconductor.model.dtos;
 
 import java.util.Date;
 

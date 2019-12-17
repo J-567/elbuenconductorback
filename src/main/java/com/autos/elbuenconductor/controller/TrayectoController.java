@@ -2,6 +2,7 @@ package com.autos.elbuenconductor.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -15,8 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.autos.elbuenconductor.model.Cliente;
 import com.autos.elbuenconductor.model.Trayecto;
+import com.autos.elbuenconductor.model.dtos.EstadisticasDTO;
+import com.autos.elbuenconductor.model.dtos.TrayectoOutDTO;
 import com.autos.elbuenconductor.repositories.TrayectoRepository;
-import com.autos.elbuenconductor.springbatch.TrayectoOutDTO;
 
 @RestController
 @RequestMapping("/api")
@@ -26,12 +28,20 @@ public class TrayectoController {
 	private TrayectoRepository trayectoRepository;
 	
 	//Servicios:
-	public double getPrecio(Optional<Trayecto> trayecto) {
+	public double getPrecioOptional(Optional<Trayecto> trayecto) {
 		
 		//TODO aplicar lógica de negocio
 		
 		return 50.5;
 	}
+	
+	public double getPrecio(Trayecto trayecto) {
+		
+		//TODO aplicar lógica de negocio
+		
+		return 50.5;
+	}
+	
 	
 	@GetMapping("/clientes/{dni}/{id}")
 	public TrayectoOutDTO getByDniById(@PathVariable ("dni") String dni,
@@ -53,13 +63,13 @@ public class TrayectoController {
 		trayectoOut.setRpmMedias(trayecto.get().getRpmMedias());
 		trayectoOut.setInicio(trayecto.get().getInicio());
 		trayectoOut.setFin(trayecto.get().getFin());
-		trayectoOut.setPrecio(this.getPrecio(trayecto));
+		trayectoOut.setPrecio(this.getPrecioOptional(trayecto));
 		
 		return trayectoOut;			   
 	}
 	
 	@GetMapping("/clientes/{dni}/{inicio}/{fin}")
-	public List<Trayecto> getByDniBetweenInicioFin(@PathVariable ("dni") String dni,
+	public List<TrayectoOutDTO> getByDniBetweenInicioFin(@PathVariable ("dni") String dni,
 	 		   									   @PathVariable ("inicio") String inicioStr,
 	 		   									   @PathVariable ("fin") String finStr) throws ParseException{
 		
@@ -71,7 +81,75 @@ public class TrayectoController {
 		Date inicio = sdf.parse(inicioStr);
 		Date fin = sdf.parse(finStr);
 		
-		return trayectoRepository.findByClienteAndDatesBetween(cliente, inicio, fin);
+		List<Trayecto> trayectos = trayectoRepository.findByClienteAndDatesBetween(cliente, inicio, fin);
+		
+		List<TrayectoOutDTO> trayectosOut = new ArrayList<TrayectoOutDTO>();
+		
+		for(Trayecto trayecto : trayectos) {
+			
+			TrayectoOutDTO trayectoOut = new TrayectoOutDTO();
+			
+			trayectoOut.setId(trayecto.getId());
+			trayectoOut.setDni(trayecto.getCliente().getDNI());
+			trayectoOut.setMatricula(trayecto.getVehiculo().getMatricula());
+			trayectoOut.setKmRecorridos(trayecto.getKmRecorridos());
+			trayectoOut.setnAcelerones(trayecto.getnAcelerones());
+			trayectoOut.setnFrenazos(trayecto.getnFrenazos());
+			trayectoOut.setRpmMedias(trayecto.getRpmMedias());
+			trayectoOut.setInicio(trayecto.getInicio());
+			trayectoOut.setFin(trayecto.getFin());
+			trayectoOut.setPrecio(this.getPrecio(trayecto));
+			
+			trayectosOut.add(trayectoOut);
+			
+		}
+		
+		return trayectosOut;
+	}
+	
+	@GetMapping("/clientes/{dni}/estadisticas/{inicio}/{fin}")
+	public EstadisticasDTO getEstadisticasByDniBetweenInicioFin(
+			       @PathVariable ("dni") String dni,
+				   @PathVariable ("inicio") String inicioStr,
+				   @PathVariable ("fin") String finStr) throws ParseException{
+		
+		List<TrayectoOutDTO> trayectos = this.getByDniBetweenInicioFin(dni, inicioStr, finStr);
+		
+		EstadisticasDTO estadisticas = new EstadisticasDTO();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		
+		Date inicio = sdf.parse(inicioStr);
+		Date fin = sdf.parse(finStr);
+		
+		estadisticas.setInicioEstadistica(inicio);
+		estadisticas.setFinEstadistica(fin);
+		estadisticas.setDni(dni);
+		
+		int numeroTrayectos = trayectos.size();
+		estadisticas.setnTrayectos(numeroTrayectos);
+
+		double kmTotales = 0.0;
+		double nAceleronesMedios = 0.0;
+		double nFrenazosMedios = 0.0;
+		double rpmMedias = 0.0;
+		
+		for(TrayectoOutDTO trayecto : trayectos) {
+			
+			kmTotales += trayecto.getKmRecorridos();
+			nAceleronesMedios += trayecto.getnAcelerones();
+			nFrenazosMedios += trayecto.getnFrenazos();
+			rpmMedias += trayecto.getRpmMedias();
+		
+		}
+		
+		estadisticas.setKmTotales(kmTotales);
+		estadisticas.setKmMedios(kmTotales / numeroTrayectos);
+		estadisticas.setnAceleronesMedios(nAceleronesMedios / numeroTrayectos);
+		estadisticas.setnFrenazosMedios(nFrenazosMedios / numeroTrayectos);
+		estadisticas.setRpmMedias(rpmMedias / numeroTrayectos);
+				
+		return estadisticas;
 	}
 	
 	

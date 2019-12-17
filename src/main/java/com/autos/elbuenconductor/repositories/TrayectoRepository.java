@@ -30,7 +30,7 @@ public interface TrayectoRepository extends JpaRepository<Trayecto, Long>{
 
 	
 	//Servicio
-	//TODO Cálculo del precio de un trayectos
+	// Cálculo del precio de un trayectos
 	
 	//****DATOS CLIENTE****:
 	//DATOS PERSONALES:
@@ -42,7 +42,7 @@ public interface TrayectoRepository extends JpaRepository<Trayecto, Long>{
 	//NEXT STEP, SI NUESTROS TRAYECTOS FUESEN SERIES TEMPORALES ENDPOINT Series temporales (para hacer gráficos)
 	
 	//ESTADÍSTICAS GENERALES:
-	//TODO ENDPOINT Estadísticas entre dos fechas: nTrayectos y valores medios de rmp, nFrenazos, nAcelerones, Km (por trayecto) 
+	//ENDPOINT Estadísticas entre dos fechas: nTrayectos y valores medios de rmp, nFrenazos, nAcelerones, Km (por trayecto) 
 	//{'rpm': val, 'nFren': val, 'nAc': val, 'nTray': val, 'KmMedios': val, TotalGAstado': val} crear modelo DTOs
 	
 	//Detalle de las estadísticas:

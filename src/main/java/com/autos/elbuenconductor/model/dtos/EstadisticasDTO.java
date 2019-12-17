@@ -1,15 +1,18 @@
-package com.autos.elbuenconductor.springbatch;
+package com.autos.elbuenconductor.model.dtos;
+
+import java.util.Date;
 
 public class EstadisticasDTO {
 	
 	private String dni;
 	private double kmTotales;
 	private double kmMedios;
-	private int nAceleronesMedios;
-	private int nFrenazosMedios;
+	private double nAceleronesMedios;
+	private double nFrenazosMedios;
 	private double rpmMedias;
-	private String inicioEstadistica;
-	private String finEstadistica;
+	private Date inicioEstadistica;
+	private Date finEstadistica;
+	private int nTrayectos;
 	
 	public EstadisticasDTO() {
 		
@@ -35,23 +38,23 @@ public class EstadisticasDTO {
 		return kmMedios;
 	}
 
-	public void setKmMedios(double kmRecorridosMedios) {
-		this.kmMedios = kmRecorridosMedios;
+	public void setKmMedios(double kmMedios) {
+		this.kmMedios = kmMedios;
 	}
 
-	public int getnAceleronesMedios() {
+	public double getnAceleronesMedios() {
 		return nAceleronesMedios;
 	}
 
-	public void setnAceleronesMedios(int nAceleronesMedios) {
+	public void setnAceleronesMedios(double nAceleronesMedios) {
 		this.nAceleronesMedios = nAceleronesMedios;
 	}
 
-	public int getnFrenazosMedios() {
+	public double getnFrenazosMedios() {
 		return nFrenazosMedios;
 	}
 
-	public void setnFrenazosMedios(int nFrenazosMedios) {
+	public void setnFrenazosMedios(double nFrenazosMedios) {
 		this.nFrenazosMedios = nFrenazosMedios;
 	}
 
@@ -63,27 +66,36 @@ public class EstadisticasDTO {
 		this.rpmMedias = rpmMedias;
 	}
 
-	public String getInicioEstadistica() {
+	public Date getInicioEstadistica() {
 		return inicioEstadistica;
 	}
 
-	public void setInicioEstadistica(String inicioEstadistica) {
+	public void setInicioEstadistica(Date inicioEstadistica) {
 		this.inicioEstadistica = inicioEstadistica;
 	}
 
-	public String getFinEstadistica() {
+	public Date getFinEstadistica() {
 		return finEstadistica;
 	}
 
-	public void setFinEstadistica(String finEstadistica) {
+	public void setFinEstadistica(Date finEstadistica) {
 		this.finEstadistica = finEstadistica;
+	}
+
+	public int getnTrayectos() {
+		return nTrayectos;
+	}
+
+	public void setnTrayectos(int nTrayectos) {
+		this.nTrayectos = nTrayectos;
 	}
 
 	@Override
 	public String toString() {
 		return "EstadisticasDTO [dni=" + dni + ", kmTotales=" + kmTotales + ", kmMedios=" + kmMedios
 				+ ", nAceleronesMedios=" + nAceleronesMedios + ", nFrenazosMedios=" + nFrenazosMedios + ", rpmMedias="
-				+ rpmMedias + ", inicioEstadistica=" + inicioEstadistica + ", finEstadistica=" + finEstadistica + "]";
+				+ rpmMedias + ", inicioEstadistica=" + inicioEstadistica + ", finEstadistica=" + finEstadistica
+				+ ", nTrayectos=" + nTrayectos + "]";
 	}
 
 }

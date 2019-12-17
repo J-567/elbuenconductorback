@@ -1,4 +1,4 @@
-package com.autos.elbuenconductor.springbatch;
+package com.autos.elbuenconductor.model.dtos;
 
 public class EstadisticasByCocheDTO {
 
