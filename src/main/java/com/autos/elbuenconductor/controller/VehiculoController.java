@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,13 +20,17 @@ public class VehiculoController {
 	@Autowired
 	public VehiculoRepository vehiculoRepository;
 
+
 	//Endpoint para ver todos los vehiculos disponibles
+	@CrossOrigin()
 	@GetMapping("/vehiculos")
 	public List <Vehiculo> getAllVehiculos(){
 		return vehiculoRepository.findAll();
 	}
 	
+
 	//Endpoint para ver un vehiculo por su matricula
+	@CrossOrigin()
 	@GetMapping ("/vehiculos/{matricula}")
 	public Optional<Vehiculo> getById(@PathVariable ("matricula") String matricula) {
 		return vehiculoRepository.findById(matricula);

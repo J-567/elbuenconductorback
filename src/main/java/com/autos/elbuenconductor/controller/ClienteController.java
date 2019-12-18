@@ -3,6 +3,7 @@ package com.autos.elbuenconductor.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ public class ClienteController {
 	@Autowired
 	private ClienteRepository clienteRepository;
 	
+	@CrossOrigin()
 	@GetMapping("/clientes/{dni}")
 	public Optional<Cliente> getClienteByDni(@PathVariable ("dni") String dni) {
 		return clienteRepository.findById(dni);

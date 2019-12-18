@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,7 @@ public class TrayectoController {
 	@Autowired
 	private CalculosServices calculoServices;
 	
+	@CrossOrigin()
 	@GetMapping("/clientes/{dni}/{id}")
 	public TrayectoOutDTO getByDniById(@PathVariable ("dni") String dni,
 								 		   @PathVariable ("id") Long id){
@@ -66,6 +68,7 @@ public class TrayectoController {
 		return trayectoOut;			   
 	}
 	
+	@CrossOrigin()
 	@GetMapping("/clientes/{dni}/{inicio}/{fin}")
 	public List<TrayectoOutDTO> getByDniBetweenInicioFin(@PathVariable ("dni") String dni,
 	 		   									   @PathVariable ("inicio") String inicioStr,
